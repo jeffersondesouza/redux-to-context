@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useContext, useEffect } from "react";
 import { connect } from "react-redux";
 
 import MainNavigation from "../components/MainNavigation";
@@ -7,39 +7,39 @@ import "./Cart.css";
 
 import ShopContext from "../context/shop-context";
 
-class CartPage extends Component {
-  static contextType = ShopContext;
+const CartPage = () => {
+  const context = useContext(ShopContext);
+  const { cart, removeProductFromCart, cartSum } = context;
+  console.log("context:", context);
 
-  render() {
-    const { cartSum, cart, removeProductFromCart } = this.context;
+  useEffect(() => {
+    console.log("log");
+  }, []);
 
-    return (
-      <React.Fragment>
-        <MainNavigation cartItemNumber={cartSum} />
-        <main className="cart">
-          {cart.length <= 0 && <p>No Item in the Cart!</p>}
-          <ul>
-            {cart.map(cartItem => (
-              <li key={cartItem.id}>
-                <div>
-                  <strong>{cartItem.title}</strong> - ${cartItem.price} (
-                  {cartItem.quantity})
-                </div>
-                <div>
-                  <button
-                    onClick={removeProductFromCart.bind(this, cartItem.id)}
-                  >
-                    Remove from Cart
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </main>
-      </React.Fragment>
-    );
-  }
-}
+  return (
+    <React.Fragment>
+      <MainNavigation cartItemNumber={cartSum} />
+      <main className="cart">
+        {cartSum <= 0 && <p>No Item in the Cart!</p>}
+        <ul>
+          {cart.map(cartItem => (
+            <li key={cartItem.id}>
+              <div>
+                <strong>{cartItem.title}</strong> - ${cartItem.price} (
+                {cartItem.quantity})
+              </div>
+              <div>
+                <button onClick={removeProductFromCart.bind(this, cartItem.id)}>
+                  Remove from Cart
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </main>
+    </React.Fragment>
+  );
+};
 
 const mapStateToProps = state => {
   return {

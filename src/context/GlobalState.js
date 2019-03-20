@@ -59,13 +59,16 @@ class GlobalState extends React.Component {
       updatedCart[updatedItemIndex] = updatedItem;
     }
     setTimeout(() => {
-      this.setState({ cart: updatedCart });
+      this.setState({
+        cart: updatedCart,
+        cartSum: this.setCartItemCount(updatedCart)
+      });
     }, 700);
   };
 
   render() {
     const { products, cart, cartSum } = this.state;
-    
+
     return (
       <ShopContext.Provider
         value={{
