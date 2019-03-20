@@ -1,8 +1,6 @@
 import React, { useContext, useEffect } from "react";
-import { connect } from "react-redux";
 
 import MainNavigation from "../components/MainNavigation";
-import { removeProductFromCart } from "../store/actions";
 import "./Cart.css";
 
 import ShopContext from "../context/shop-context";
@@ -39,22 +37,4 @@ const CartPage = () => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    cartItems: state.cart,
-    cartItemCount: state.cart.reduce((count, curItem) => {
-      return count + curItem.quantity;
-    }, 0)
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    removeProductFromCart: id => dispatch(removeProductFromCart(id))
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CartPage);
+export default CartPage
