@@ -10,10 +10,8 @@ import ShopContext from "../context/shop-context";
 const CartPage = () => {
   const context = useContext(ShopContext);
   const { cart, removeProductFromCart, cartSum } = context;
-  console.log("context:", context);
 
   useEffect(() => {
-    console.log("log");
   }, []);
 
   return (

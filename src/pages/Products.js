@@ -9,7 +9,6 @@ const ProductsPage = () => {
   return (
     <ShopContext.Consumer>
       {context => {
-        console.log("context:", context);
         const { products, cartSum, cart, addProductToCart } = context;
         return (
           <React.Fragment>

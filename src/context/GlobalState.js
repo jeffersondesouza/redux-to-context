@@ -1,7 +1,12 @@
 import React, { useState, useReducer } from "react";
 import ShopContext from "./shop-context";
 
-import { shopReducer, ADD_PRODUCT, REMOVE_PRODUCT } from "./reducers";
+import {
+  shopReducer,
+  ADD_PRODUCT,
+  ADD_PRODUCT_REQUEST,
+  REMOVE_PRODUCT
+} from "./reducers";
 
 const initalState = {
   products: [
@@ -17,15 +22,20 @@ const GlobalState = props => {
   const [state, dispatch] = useReducer(shopReducer, initalState);
 
   const addProductToCart = product => {
-    setTimeout(() => {
-      dispatch({ type: ADD_PRODUCT, product });
-    }, 700);
+    dispatch({ type: ADD_PRODUCT_REQUEST });
+    fetch("https://api.punkapi.com/v2/beers")
+      .then(res => res.json())
+      .then(data => {
+        dispatch({ type: ADD_PRODUCT, product });
+      });
   };
 
   const removeProductFromCart = productId => {
-    setTimeout(() => {
-      dispatch({ type: REMOVE_PRODUCT, productId });
-    }, 700);
+    fetch("https://api.punkapi.com/v2/beers")
+      .then(res => res.json())
+      .then(data => {
+        dispatch({ type: REMOVE_PRODUCT, productId });
+      });
   };
 
   const { products, cart, cartSum } = state;
