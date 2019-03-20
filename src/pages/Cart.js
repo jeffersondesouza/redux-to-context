@@ -11,16 +11,15 @@ class CartPage extends Component {
   static contextType = ShopContext;
 
   render() {
-    console.log("contextType:", this.context);
-    const { products, cartSum, cart, addProductToCart } = this.context;
+    const { cartSum, cart, removeProductFromCart } = this.context;
 
     return (
       <React.Fragment>
         <MainNavigation cartItemNumber={cartSum} />
         <main className="cart">
-          {this.props.cartItems.length <= 0 && <p>No Item in the Cart!</p>}
+          {cart.length <= 0 && <p>No Item in the Cart!</p>}
           <ul>
-            {this.props.cartItems.map(cartItem => (
+            {cart.map(cartItem => (
               <li key={cartItem.id}>
                 <div>
                   <strong>{cartItem.title}</strong> - ${cartItem.price} (
@@ -28,10 +27,7 @@ class CartPage extends Component {
                 </div>
                 <div>
                   <button
-                    onClick={this.props.removeProductFromCart.bind(
-                      this,
-                      cartItem.id
-                    )}
+                    onClick={removeProductFromCart.bind(this, cartItem.id)}
                   >
                     Remove from Cart
                   </button>
