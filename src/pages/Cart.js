@@ -1,15 +1,22 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import MainNavigation from '../components/MainNavigation';
-import { removeProductFromCart } from '../store/actions';
-import './Cart.css';
+import MainNavigation from "../components/MainNavigation";
+import { removeProductFromCart } from "../store/actions";
+import "./Cart.css";
+
+import ShopContext from "../context/shop-context";
 
 class CartPage extends Component {
+  static contextType = ShopContext;
+
   render() {
+    console.log("contextType:", this.context);
+    const { products, cartSum, cart, addProductToCart } = this.context;
+
     return (
       <React.Fragment>
-        <MainNavigation cartItemNumber={this.props.cartItemCount} />
+        <MainNavigation cartItemNumber={cartSum} />
         <main className="cart">
           {this.props.cartItems.length <= 0 && <p>No Item in the Cart!</p>}
           <ul>
