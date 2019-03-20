@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import ShopContext from "./shop-context";
 
-class GlobalState extends React.Component {
-  state = {
+const GlobalState = props => {
+  const [state, setState] = useState({
     products: [
       { id: "p1", title: "Gaming Mouse", price: 29.99 },
       { id: "p2", title: "Harry Potter 3", price: 9.99 },
@@ -11,16 +11,16 @@ class GlobalState extends React.Component {
     ],
     cart: [],
     cartSum: 0
-  };
+  });
 
-  setCartItemCount = cart =>
+  const setCartItemCount = cart =>
     cart.reduce((count, curItem) => {
       return count + curItem.quantity;
     }, 0);
 
-  addProductToCart = product => {
+  const addProductToCart = product => {
     console.log("Adding product", product);
-    const updatedCart = [...this.state.cart];
+    const updatedCart = [...state.cart];
     const updatedItemIndex = updatedCart.findIndex(
       item => item.id === product.id
     );
@@ -35,16 +35,17 @@ class GlobalState extends React.Component {
       updatedCart[updatedItemIndex] = updatedItem;
     }
     setTimeout(() => {
-      this.setState({
+      setState({
+        ...state,
         cart: updatedCart,
-        cartSum: this.setCartItemCount(updatedCart)
+        cartSum: setCartItemCount(updatedCart)
       });
     }, 700);
   };
 
-  removeProductFromCart = productId => {
+  const removeProductFromCart = productId => {
     console.log("Removing product with id: " + productId);
-    const updatedCart = [...this.state.cart];
+    const updatedCart = [...state.cart];
     const updatedItemIndex = updatedCart.findIndex(
       item => item.id === productId
     );
@@ -59,30 +60,30 @@ class GlobalState extends React.Component {
       updatedCart[updatedItemIndex] = updatedItem;
     }
     setTimeout(() => {
-      this.setState({
+      setState({
+        ...state,
+
         cart: updatedCart,
-        cartSum: this.setCartItemCount(updatedCart)
+        cartSum: setCartItemCount(updatedCart)
       });
     }, 700);
   };
 
-  render() {
-    const { products, cart, cartSum } = this.state;
+  const { products, cart, cartSum } = state;
 
-    return (
-      <ShopContext.Provider
-        value={{
-          products,
-          cart,
-          cartSum,
-          addProductToCart: this.addProductToCart,
-          removeProductFromCart: this.removeProductFromCart
-        }}
-      >
-        {this.props.children}
-      </ShopContext.Provider>
-    );
-  }
-}
+  return (
+    <ShopContext.Provider
+      value={{
+        products,
+        cart,
+        cartSum,
+        addProductToCart: addProductToCart,
+        removeProductFromCart: removeProductFromCart
+      }}
+    >
+      {props.children}
+    </ShopContext.Provider>
+  );
+};
 
 export default GlobalState;
